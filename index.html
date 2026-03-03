@@ -2,6 +2,7 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8" />
+  <meta name="email-obfuscation" content="off" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Flowmeo — Retrouve ton équilibre intérieur</title>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
@@ -1512,7 +1513,7 @@
         </div>
       </div>
 
-      <p style="margin-top:1.5rem; text-align:center; font-size:0.85rem; color:rgba(250,247,242,0.5);">Tu préfères être contacté·e ? Écris-moi directement à <a href="/cdn-cgi/l/email-protection#284a4d4444475b5c44475e4d4444684f45494144064b4745" style="color:var(--coral);"><span class="__cf_email__" data-cfemail="a6c4c3cacac9d5d2cac9d0c3cacae6c1cbc7cfca88c5c9cb">[email&#160;protected]</span></a></p>
+      <p style="margin-top:1.5rem; text-align:center; font-size:0.85rem; color:rgba(250,247,242,0.5);">Tu préfères être contacté·e ? Écris-moi directement à <a href="#" data-mailto="1" style="color:var(--coral);"><span data-email="">chargement...</span></a></p>
       <p style="margin-top:0.5rem; font-size:0.75rem; color:rgba(250,247,242,0.3); letter-spacing:0.05em; text-align:center;">Entretien confidentiel · 100% en ligne · Aucun engagement</p>
     </div>
   </section>
@@ -1652,7 +1653,7 @@
         <h3>Confidentialité des entretiens</h3>
         <p>Tout ce qui est partagé lors d'un entretien en relation d'aide reste strictement confidentiel. Aucun contenu de nos échanges n'est divulgué à un tiers, sauf obligation légale explicite.</p>
         <h3>Tes droits</h3>
-        <p>Tu as le droit de demander l'accès, la modification ou la suppression de tes données à tout moment en nous écrivant à : <strong><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="0361666f6f6c70776f6c75666f6f43646e626a6f2d606c6e">[email&#160;protected]</a></strong></p>
+        <p>Tu as le droit de demander l'accès, la modification ou la suppression de tes données à tout moment en nous écrivant à : <strong><span data-email="">chargement...</span></strong></p>
       </div>
     </div>
   </div>
@@ -1669,7 +1670,7 @@
         <h3>Réservation et tarifs</h3>
         <p>Les entretiens se tiennent exclusivement en ligne (vidéoconférence). La durée standard est de 50 minutes. Les tarifs en vigueur sont communiqués lors de la confirmation de réservation.</p>
         <h3>Annulation</h3>
-        <p>Toute annulation ou demande de report doit être communiquée au minimum 24 heures avant le rendez-vous prévu, par courriel à <strong><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="5133343d3d3e22253d3e27343d3d11363c30383d7f323e3c">[email&#160;protected]</a></strong>. En dessous de ce délai, l'entretien peut être facturé en totalité.</p>
+        <p>Toute annulation ou demande de report doit être communiquée au minimum 24 heures avant le rendez-vous prévu, par courriel à <strong><span data-email="">chargement...</span></strong>. En dessous de ce délai, l'entretien peut être facturé en totalité.</p>
         <h3>Limites du service</h3>
         <p>En cas de détresse psychologique sévère ou de situation de crise, Béllo St-Lovell se réserve le droit de référer le client vers des ressources professionnelles spécialisées. La relation d'aide n'est pas un service d'urgence.</p>
         <h3>Responsabilité</h3>
@@ -1687,13 +1688,7 @@
       <div class="modal-body">
         <p>Pour toute question, demande de réservation ou simplement pour dire bonjour — n'hésite pas à nous écrire. Béllo répond personnellement à chaque message.</p>
         <div class="contact-links">
-          <a href="/cdn-cgi/l/email-protection#5d3f383131322e2931322b3831311d3a303c3431733e3230" class="contact-link">
-            <span class="contact-icon">✉️</span>
-            <div>
-              <div style="font-weight:500; margin-bottom:0.2rem;">Par courriel</div>
-              <div style="font-size:0.8rem; color:var(--text-light);"><span class="__cf_email__" data-cfemail="a9cbccc5c5c6daddc5c6dfccc5c5e9cec4c8c0c587cac6c4">[email&#160;protected]</span></div>
-            </div>
-          </a>
+          <a href="#" data-mailto="1" class="contact-link"><span data-email="">chargement...</span></a>
           <a href="#reservation" onclick="closeModal('modal-contact')" class="contact-link">
             <span class="contact-icon">📅</span>
             <div>
@@ -1706,7 +1701,7 @@
     </div>
   </div>
 
-  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+  <script>
     // Custom cursor
     const cursor = document.getElementById('cursor');
     const ring = document.getElementById('cursorRing');
@@ -1793,6 +1788,20 @@
           e.preventDefault();
           target.scrollIntoView({ behavior: 'smooth' });
         }
+      });
+    });
+  </script>
+
+  <script>
+    // Render emails after page load to bypass Cloudflare obfuscation
+    document.addEventListener('DOMContentLoaded', function() {
+      var e = 'bellostlovell' + '@' + 'gmail.com';
+      document.querySelectorAll('[data-mailto]').forEach(function(el) {
+        el.href = 'mailto:' + e;
+      });
+      document.querySelectorAll('[data-email]').forEach(function(el) {
+        el.textContent = e;
+        if (el.closest('a')) el.closest('a').href = 'mailto:' + e;
       });
     });
   </script>
