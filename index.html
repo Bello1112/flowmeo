@@ -1512,7 +1512,7 @@
         </div>
       </div>
 
-      <p style="margin-top:1.5rem; text-align:center; font-size:0.85rem; color:rgba(250,247,242,0.5);">Tu préfères être contacté·e ? Écris-moi directement à <a href="mailto:bellostlovell@gmail.com" style="color:var(--coral);"><span class="__cf_email__" data-cfemail="a6c4c3cacac9d5d2cac9d0c3cacae6c1cbc7cfca88c5c9cb">[email&#160;protected]</span></a></p>
+      <p style="margin-top:1.5rem; text-align:center; font-size:0.85rem; color:rgba(250,247,242,0.5);">Tu préfères être contacté·e ? Écris-moi directement à <a href="/cdn-cgi/l/email-protection#284a4d4444475b5c44475e4d4444684f45494144064b4745" style="color:var(--coral);"><span class="__cf_email__" data-cfemail="a6c4c3cacac9d5d2cac9d0c3cacae6c1cbc7cfca88c5c9cb">[email&#160;protected]</span></a></p>
       <p style="margin-top:0.5rem; font-size:0.75rem; color:rgba(250,247,242,0.3); letter-spacing:0.05em; text-align:center;">Entretien confidentiel · 100% en ligne · Aucun engagement</p>
     </div>
   </section>
@@ -1687,7 +1687,7 @@
       <div class="modal-body">
         <p>Pour toute question, demande de réservation ou simplement pour dire bonjour — n'hésite pas à nous écrire. Béllo répond personnellement à chaque message.</p>
         <div class="contact-links">
-          <a href="mailto:bellostlovell@gmail.com" class="contact-link">
+          <a href="/cdn-cgi/l/email-protection#5d3f383131322e2931322b3831311d3a303c3431733e3230" class="contact-link">
             <span class="contact-icon">✉️</span>
             <div>
               <div style="font-weight:500; margin-bottom:0.2rem;">Par courriel</div>
@@ -1706,7 +1706,7 @@
     </div>
   </div>
 
-  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
     // Custom cursor
     const cursor = document.getElementById('cursor');
     const ring = document.getElementById('cursorRing');
@@ -1727,9 +1727,74 @@
     }
     animateRing();
 
-    document.querySelectorAll('a, button, .theme-pill, .age-card').forEach(el => {
+    document.querySelectorAll('a, button, .age-card').forEach(el => {
       el.addEventListener('mouseenter', () => {
         cursor.style.transform = 'translate(-50%, -50%) scale(2)';
         ring.style.transform = 'translate(-50%, -50%) scale(1.5)';
         ring.style.opacity = '0.3';
-      
+      });
+      el.addEventListener('mouseleave', () => {
+        cursor.style.transform = 'translate(-50%, -50%) scale(1)';
+        ring.style.transform = 'translate(-50%, -50%) scale(1)';
+        ring.style.opacity = '0.6';
+      });
+    });
+
+    // Article page
+    function openArticle() {
+      document.getElementById('article-page').classList.add('open');
+      document.body.style.overflow = 'hidden';
+      document.getElementById('article-page').scrollTo(0, 0);
+    }
+    function closeArticle() {
+      document.getElementById('article-page').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    // Modals
+    function openModal(id) {
+      document.getElementById(id).classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeModal(id) {
+      document.getElementById(id).classList.remove('open');
+      document.body.style.overflow = '';
+    }
+    document.querySelectorAll('.modal-overlay').forEach(overlay => {
+      overlay.addEventListener('click', e => {
+        if (e.target === overlay) closeModal(overlay.id);
+      });
+    });
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') {
+        document.querySelectorAll('.modal-overlay.open').forEach(m => closeModal(m.id));
+        closeArticle();
+      }
+    });
+
+    // Cal.com embed show/hide logic
+    setTimeout(function() {
+      var embed = document.getElementById('cal-embed');
+      var wrap = document.getElementById('cal-embed-wrap');
+      var fallback = document.getElementById('cal-fallback');
+      if (embed && embed.children.length > 0 && wrap) {
+        wrap.style.display = 'block';
+        if (fallback) fallback.style.display = 'none';
+      }
+    }, 2500);
+
+    // Smooth scroll for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', e => {
+        const href = a.getAttribute('href');
+        if (href === '#') return;
+        const target = document.querySelector(href);
+        if (target) {
+          e.preventDefault();
+          target.scrollIntoView({ behavior: 'smooth' });
+        }
+      });
+    });
+  </script>
+</body>
+</html>
