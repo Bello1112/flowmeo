@@ -1,0 +1,1735 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Flowmeo — Retrouve ton équilibre intérieur</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --cream: #FAF7F2;
+      --warm-white: #FDF9F4;
+      --beige: #EDE5D8;
+      --sand: #D4C5B0;
+      --terracotta: #C27A5F;
+      --coral: #D4856A;
+      --sage: #7A9E8A;
+      --deep-sage: #4A6B58;
+      --navy: #1E2D40;
+      --navy-soft: #2C3E52;
+      --gold: #B8986A;
+      --text-dark: #1A1A1A;
+      --text-mid: #4A4A4A;
+      --text-light: #7A7A7A;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--cream);
+      color: var(--text-dark);
+      overflow-x: hidden;
+      cursor: none;
+    }
+
+    /* Custom cursor */
+    .cursor {
+      position: fixed;
+      width: 10px; height: 10px;
+      background: var(--terracotta);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9999;
+      transform: translate(-50%, -50%);
+      transition: transform 0.1s ease;
+    }
+    .cursor-ring {
+      position: fixed;
+      width: 36px; height: 36px;
+      border: 1.5px solid var(--terracotta);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9998;
+      transform: translate(-50%, -50%);
+      transition: all 0.18s ease;
+      opacity: 0.6;
+    }
+
+    /* ─── NAV ─── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.4rem 4rem;
+      background: rgba(250, 247, 242, 0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(212, 197, 176, 0.3);
+    }
+    .nav-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.7rem;
+      font-weight: 600;
+      color: var(--navy);
+      letter-spacing: 0.02em;
+    }
+    .nav-logo span { color: var(--terracotta); }
+    .nav-links { display: flex; gap: 2.5rem; align-items: center; }
+    .nav-links a {
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 400;
+      color: var(--text-mid);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--terracotta); }
+    .nav-cta {
+      background: var(--navy);
+      color: var(--cream) !important;
+      padding: 0.6rem 1.4rem;
+      border-radius: 50px;
+      transition: background 0.2s !important;
+    }
+    .nav-cta:hover { background: var(--terracotta) !important; color: white !important; }
+
+    /* ─── HERO ─── */
+    #hero {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-left {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 10rem 4rem 6rem 7rem;
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--beige);
+      color: var(--deep-sage);
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 0.45rem 1rem;
+      border-radius: 50px;
+      margin-bottom: 2rem;
+      width: fit-content;
+      font-weight: 500;
+      opacity: 1;
+      animation: fadeUp 0.8s ease 0.2s both;
+    }
+    .hero-tag::before {
+      content: '';
+      width: 6px; height: 6px;
+      background: var(--sage);
+      border-radius: 50%;
+    }
+
+    .hero-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(3rem, 5vw, 5.2rem);
+      font-weight: 300;
+      line-height: 1.1;
+      color: var(--navy);
+      margin-bottom: 1.8rem;
+      opacity: 1;
+      animation: fadeUp 0.9s ease 0.4s both;
+    }
+    .hero-title em {
+      font-style: italic;
+      color: var(--terracotta);
+    }
+
+    .hero-sub {
+      font-size: 1rem;
+      font-weight: 300;
+      color: var(--text-mid);
+      line-height: 1.8;
+      max-width: 420px;
+      margin-bottom: 3rem;
+      opacity: 1;
+      animation: fadeUp 0.9s ease 0.6s both;
+    }
+
+    .hero-actions {
+      display: flex; gap: 1rem; align-items: center;
+      opacity: 1;
+      animation: fadeUp 0.9s ease 0.8s both;
+    }
+
+    .btn-primary {
+      background: var(--terracotta);
+      color: white;
+      text-decoration: none;
+      padding: 0.85rem 2.2rem;
+      border-radius: 50px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: all 0.25s;
+      letter-spacing: 0.02em;
+    }
+    .btn-primary:hover {
+      background: var(--navy);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(30,45,64,0.2);
+    }
+
+    .btn-ghost {
+      color: var(--navy);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 400;
+      display: flex; align-items: center; gap: 0.5rem;
+      transition: gap 0.2s, color 0.2s;
+    }
+    .btn-ghost:hover { gap: 0.9rem; color: var(--terracotta); }
+    .btn-ghost::after { content: '→'; font-size: 1rem; }
+
+    .hero-right {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-visual {
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, var(--beige) 0%, #E8D9C8 40%, var(--sand) 100%);
+    }
+
+    /* Organic blob shapes */
+    .blob {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(60px);
+      opacity: 0.5;
+    }
+    .blob-1 {
+      width: 400px; height: 400px;
+      background: radial-gradient(circle, #C27A5F55, transparent);
+      top: 10%; right: -10%;
+      animation: drift 8s ease-in-out infinite alternate;
+    }
+    .blob-2 {
+      width: 300px; height: 300px;
+      background: radial-gradient(circle, #7A9E8A55, transparent);
+      bottom: 15%; left: 10%;
+      animation: drift 10s ease-in-out infinite alternate-reverse;
+    }
+    .blob-3 {
+      width: 200px; height: 200px;
+      background: radial-gradient(circle, #B8986A44, transparent);
+      top: 50%; right: 20%;
+      animation: drift 7s ease-in-out infinite alternate;
+    }
+
+    .hero-card {
+      position: absolute;
+      background: rgba(255,255,255,0.85);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255,255,255,0.9);
+      border-radius: 20px;
+      padding: 1.4rem 1.8rem;
+      box-shadow: 0 20px 60px rgba(30,45,64,0.08);
+      opacity: 1;
+      animation: fadeIn 1s ease 1.2s both;
+    }
+    .hero-card-1 {
+      top: 25%; left: 12%;
+      width: 200px;
+    }
+    .hero-card-2 {
+      bottom: 22%; right: 8%;
+      width: 220px;
+    }
+    .card-icon { font-size: 1.8rem; margin-bottom: 0.5rem; }
+    .card-title { font-family: 'Cormorant Garamond', serif; font-size: 1rem; font-weight: 600; color: var(--navy); margin-bottom: 0.2rem; }
+    .card-desc { font-size: 0.72rem; color: var(--text-light); line-height: 1.5; }
+
+    .hero-quote {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      opacity: 1;
+      animation: fadeIn 1.2s ease 1s both;
+    }
+    .hero-quote p {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.5rem;
+      font-style: italic;
+      font-weight: 300;
+      color: var(--navy);
+      line-height: 1.5;
+      max-width: 260px;
+    }
+    .hero-quote span {
+      display: block;
+      margin-top: 0.8rem;
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--terracotta);
+      font-family: 'DM Sans', sans-serif;
+    }
+
+    /* Decorative line */
+    .deco-line {
+      position: absolute;
+      bottom: 0; left: 7rem;
+      width: 1px; height: 80px;
+      background: linear-gradient(to bottom, transparent, var(--sand));
+      opacity: 1;
+      animation: fadeIn 1s ease 1.5s both;
+    }
+    .deco-line::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: -3px;
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: var(--sand);
+    }
+
+    /* ─── SECTION: POUR QUI ─── */
+    #pour-qui {
+      padding: 8rem 7rem;
+      background: var(--warm-white);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .section-eyebrow {
+      font-size: 0.72rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--terracotta);
+      font-weight: 500;
+      margin-bottom: 1rem;
+    }
+
+    .section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.2rem, 4vw, 3.8rem);
+      font-weight: 300;
+      color: var(--navy);
+      line-height: 1.2;
+      margin-bottom: 1.5rem;
+    }
+    .section-title em { font-style: italic; color: var(--terracotta); }
+
+    .section-body {
+      font-size: 0.95rem;
+      color: var(--text-mid);
+      line-height: 1.9;
+      max-width: 520px;
+      font-weight: 300;
+    }
+
+    .ages-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.5rem;
+      margin-top: 4rem;
+    }
+
+    .age-card {
+      background: var(--cream);
+      border: 1px solid var(--beige);
+      border-radius: 20px;
+      padding: 2rem 1.5rem;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .age-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(to right, var(--terracotta), var(--coral));
+      transform: scaleX(0);
+      transition: transform 0.3s ease;
+    }
+    .age-card:hover { transform: translateY(-6px); box-shadow: 0 20px 50px rgba(30,45,64,0.08); }
+    .age-card:hover::before { transform: scaleX(1); }
+
+    .age-emoji { font-size: 2.2rem; margin-bottom: 1rem; }
+    .age-range {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.4rem;
+      font-weight: 600;
+      color: var(--navy);
+      margin-bottom: 0.4rem;
+    }
+    .age-label { font-size: 0.78rem; color: var(--text-light); letter-spacing: 0.05em; margin-bottom: 1rem; }
+    .age-desc { font-size: 0.82rem; color: var(--text-mid); line-height: 1.6; font-weight: 300; }
+
+    /* ─── SECTION: THÈMES ─── */
+    #themes {
+      padding: 8rem 7rem;
+      background: var(--navy);
+      position: relative;
+      overflow: hidden;
+    }
+    #themes .section-eyebrow { color: var(--gold); }
+    #themes .section-title { color: var(--cream); }
+    #themes .section-body { color: rgba(250,247,242,0.6); }
+
+    .themes-layout {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 6rem;
+      align-items: start;
+      margin-top: 1rem;
+    }
+
+    .themes-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-top: 4rem;
+    }
+
+    .theme-pill {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 14px;
+      padding: 1.2rem 1.4rem;
+      transition: all 0.25s;
+      cursor: pointer;
+    }
+    .theme-pill:hover {
+      background: rgba(194,122,95,0.15);
+      border-color: rgba(194,122,95,0.3);
+      transform: translateX(4px);
+    }
+    .theme-icon { font-size: 1.4rem; }
+    .theme-name { font-size: 0.88rem; color: var(--cream); font-weight: 400; }
+
+    /* ─── SECTION: RELATION D'AIDE ─── */
+    #relation-aide {
+      padding: 8rem 7rem;
+      background: var(--cream);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6rem;
+      align-items: center;
+    }
+
+    .aide-visual {
+      position: relative;
+      height: 500px;
+    }
+    .aide-bg {
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, var(--beige), var(--sand));
+      border-radius: 30px;
+      overflow: hidden;
+    }
+    .aide-bg-blob {
+      position: absolute;
+      width: 300px; height: 300px;
+      background: radial-gradient(circle, #C27A5F44, transparent);
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      animation: pulse 4s ease-in-out infinite;
+    }
+    .aide-center-text {
+      position: absolute; inset: 0;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      text-align: center;
+      padding: 2rem;
+    }
+    .aide-center-text .big-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 6rem;
+      font-weight: 300;
+      color: var(--navy);
+      line-height: 1;
+      opacity: 0.15;
+    }
+    .aide-badge {
+      position: absolute;
+      background: white;
+      border-radius: 16px;
+      padding: 1rem 1.4rem;
+      box-shadow: 0 10px 40px rgba(30,45,64,0.1);
+    }
+    .aide-badge-1 { top: 15%; left: -8%; }
+    .aide-badge-2 { bottom: 15%; right: -8%; }
+    .badge-label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-light); }
+    .badge-value { font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; color: var(--navy); font-weight: 600; }
+
+    .aide-content {}
+    .aide-features {
+      margin-top: 2.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+    }
+    .aide-feature {
+      display: flex; gap: 1rem; align-items: flex-start;
+    }
+    .feat-dot {
+      width: 8px; height: 8px;
+      background: var(--terracotta);
+      border-radius: 50%;
+      margin-top: 6px;
+      flex-shrink: 0;
+    }
+    .feat-text { font-size: 0.88rem; color: var(--text-mid); line-height: 1.7; font-weight: 300; }
+    .feat-text strong { color: var(--navy); font-weight: 500; }
+
+    .aide-disclaimer {
+      margin-top: 2rem;
+      padding: 1rem 1.4rem;
+      background: var(--beige);
+      border-radius: 12px;
+      font-size: 0.78rem;
+      color: var(--text-light);
+      line-height: 1.6;
+      border-left: 3px solid var(--sage);
+    }
+
+    /* ─── SECTION: COMMENT ÇA MARCHE ─── */
+    #comment {
+      padding: 8rem 7rem;
+      background: var(--warm-white);
+    }
+
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 3rem;
+      margin-top: 4rem;
+      position: relative;
+    }
+    .steps::before {
+      content: '';
+      position: absolute;
+      top: 2.5rem; left: 16%; right: 16%;
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--sand), transparent);
+    }
+
+    .step {
+      text-align: center;
+      position: relative;
+    }
+    .step-num {
+      width: 50px; height: 50px;
+      background: var(--cream);
+      border: 1.5px solid var(--beige);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 1.5rem;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.3rem;
+      color: var(--terracotta);
+      font-weight: 600;
+      position: relative;
+      z-index: 1;
+      background: var(--warm-white);
+    }
+    .step-title { font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; color: var(--navy); margin-bottom: 0.8rem; font-weight: 600; }
+    .step-desc { font-size: 0.84rem; color: var(--text-mid); line-height: 1.7; font-weight: 300; }
+
+    /* ─── SECTION: RÉSERVATION CTA ─── */
+    #reservation {
+      padding: 8rem 7rem;
+      background: linear-gradient(135deg, var(--navy) 0%, var(--navy-soft) 100%);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    #reservation::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 50% 50%, rgba(194,122,95,0.15) 0%, transparent 70%);
+    }
+    #reservation .section-eyebrow { color: var(--gold); }
+    #reservation .section-title { color: var(--cream); max-width: 600px; margin: 0 auto 1.5rem; }
+    #reservation .section-body { color: rgba(250,247,242,0.6); max-width: 480px; margin: 0 auto 3rem; }
+
+    .reservation-form {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .form-input {
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 50px;
+      padding: 0.85rem 1.8rem;
+      color: white;
+      font-size: 0.9rem;
+      font-family: 'DM Sans', sans-serif;
+      outline: none;
+      width: 260px;
+      transition: border-color 0.2s;
+    }
+    .form-input::placeholder { color: rgba(255,255,255,0.4); }
+    .form-input:focus { border-color: rgba(194,122,95,0.5); }
+    .btn-reserve {
+      background: var(--terracotta);
+      color: white;
+      border: none;
+      padding: 0.85rem 2.2rem;
+      border-radius: 50px;
+      font-size: 0.9rem;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 500;
+      cursor: none;
+      transition: all 0.25s;
+    }
+    .btn-reserve:hover { background: var(--coral); transform: translateY(-2px); }
+
+    /* ─── FOOTER ─── */
+    footer {
+      padding: 3rem 7rem;
+      background: var(--navy);
+      border-top: 1px solid rgba(255,255,255,0.06);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .footer-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.3rem;
+      color: var(--cream);
+      font-weight: 600;
+    }
+    .footer-logo span { color: var(--terracotta); }
+    .footer-copy { font-size: 0.75rem; color: rgba(250,247,242,0.35); letter-spacing: 0.05em; }
+    .footer-links { display: flex; gap: 2rem; }
+    .footer-links a { font-size: 0.78rem; color: rgba(250,247,242,0.4); text-decoration: none; transition: color 0.2s; }
+    .footer-links a:hover { color: var(--terracotta); }
+
+    /* ─── ANIMATIONS ─── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    @keyframes drift {
+      from { transform: translate(0, 0) scale(1); }
+      to { transform: translate(20px, -20px) scale(1.05); }
+    }
+    @keyframes pulse {
+      0%, 100% { transform: translate(-50%,-50%) scale(1); opacity: 0.5; }
+      50% { transform: translate(-50%,-50%) scale(1.2); opacity: 0.8; }
+    }
+
+    /* Scroll reveal */
+    .reveal {
+      opacity: 1;
+      transform: translateY(0);
+      transition: all 0.7s ease;
+    }
+    .reveal.animate {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    .reveal.animate.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+
+    /* ─── ARTICLES ─── */
+    #articles {
+      padding: 8rem 7rem;
+      background: var(--cream);
+    }
+    .articles-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 3.5rem;
+    }
+    .articles-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+    }
+    .article-card {
+      background: var(--warm-white);
+      border: 1px solid var(--beige);
+      border-radius: 24px;
+      overflow: hidden;
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+    .article-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 24px 60px rgba(30,45,64,0.1);
+    }
+    .article-card-thumb {
+      height: 180px;
+      background: linear-gradient(135deg, var(--beige), var(--sand));
+      position: relative;
+      overflow: hidden;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .article-card-thumb-icon { font-size: 4rem; opacity: 0.5; }
+    .article-card-thumb-tag {
+      position: absolute; top: 1rem; left: 1rem;
+      background: var(--terracotta);
+      color: white;
+      font-size: 0.68rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.3rem 0.8rem;
+      border-radius: 50px;
+      font-weight: 500;
+    }
+    .article-card-body { padding: 1.8rem; }
+    .article-card-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: var(--navy);
+      line-height: 1.3;
+      margin-bottom: 0.8rem;
+    }
+    .article-card-excerpt {
+      font-size: 0.82rem;
+      color: var(--text-light);
+      line-height: 1.7;
+      font-weight: 300;
+      margin-bottom: 1.2rem;
+    }
+    .article-card-footer {
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .article-read-time { font-size: 0.72rem; color: var(--text-light); letter-spacing: 0.05em; }
+    .article-cta {
+      font-size: 0.8rem;
+      color: var(--terracotta);
+      font-weight: 500;
+      display: flex; align-items: center; gap: 0.3rem;
+      transition: gap 0.2s;
+    }
+    .article-card:hover .article-cta { gap: 0.6rem; }
+
+    /* ─── ARTICLE PAGE (full read) ─── */
+    #article-page {
+      display: none;
+      position: fixed; inset: 0;
+      background: var(--cream);
+      z-index: 200;
+      overflow-y: auto;
+    }
+    #article-page.open { display: block; }
+    .article-page-nav {
+      position: sticky; top: 0;
+      background: rgba(250,247,242,0.9);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--beige);
+      padding: 1.2rem 4rem;
+      display: flex; align-items: center; justify-content: space-between;
+      z-index: 10;
+    }
+    .article-back {
+      display: flex; align-items: center; gap: 0.5rem;
+      color: var(--navy); font-size: 0.85rem;
+      background: none; border: none; cursor: pointer;
+      font-family: 'DM Sans', sans-serif;
+      transition: color 0.2s;
+    }
+    .article-back:hover { color: var(--terracotta); }
+    .article-hero {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 5rem 2rem 3rem;
+      text-align: center;
+    }
+    .article-hero-tag {
+      display: inline-block;
+      background: var(--beige);
+      color: var(--deep-sage);
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 0.4rem 1rem;
+      border-radius: 50px;
+      margin-bottom: 1.5rem;
+      font-weight: 500;
+    }
+    .article-hero-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.2rem, 4vw, 3.5rem);
+      font-weight: 300;
+      color: var(--navy);
+      line-height: 1.2;
+      margin-bottom: 1rem;
+    }
+    .article-hero-title em { font-style: italic; color: var(--terracotta); }
+    .article-hero-sub {
+      font-size: 1rem;
+      color: var(--text-mid);
+      line-height: 1.8;
+      font-weight: 300;
+      margin-bottom: 2rem;
+    }
+    .article-meta {
+      display: flex; align-items: center; justify-content: center; gap: 1.5rem;
+      font-size: 0.78rem; color: var(--text-light);
+    }
+    .article-meta span { display: flex; align-items: center; gap: 0.3rem; }
+    .article-divider {
+      width: 60px; height: 1px;
+      background: var(--sand);
+      margin: 3rem auto;
+    }
+    .article-content {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 0 2rem 6rem;
+    }
+    .article-content h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.8rem;
+      font-weight: 600;
+      color: var(--navy);
+      margin: 3rem 0 1rem;
+      line-height: 1.3;
+    }
+    .article-content h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: var(--navy);
+      margin: 2rem 0 0.8rem;
+    }
+    .article-content p {
+      font-size: 0.97rem;
+      color: var(--text-mid);
+      line-height: 1.9;
+      font-weight: 300;
+      margin-bottom: 1.2rem;
+    }
+    .article-content strong { color: var(--navy); font-weight: 500; }
+    .article-content em { font-style: italic; color: var(--terracotta); }
+    .article-insight {
+      background: var(--beige);
+      border-left: 3px solid var(--terracotta);
+      border-radius: 0 16px 16px 0;
+      padding: 1.5rem 2rem;
+      margin: 2rem 0;
+      font-size: 0.95rem;
+      color: var(--navy);
+      line-height: 1.7;
+      font-style: italic;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem;
+    }
+    .article-list {
+      list-style: none;
+      padding: 0;
+      margin: 1rem 0 1.5rem;
+    }
+    .article-list li {
+      display: flex; align-items: flex-start; gap: 0.8rem;
+      font-size: 0.95rem; color: var(--text-mid);
+      line-height: 1.7; font-weight: 300;
+      margin-bottom: 0.6rem;
+      padding-left: 0.5rem;
+    }
+    .article-list li::before {
+      content: '·';
+      color: var(--terracotta);
+      font-size: 1.4rem;
+      line-height: 1.3;
+      flex-shrink: 0;
+    }
+    .article-cta-box {
+      background: var(--navy);
+      border-radius: 24px;
+      padding: 3rem;
+      text-align: center;
+      margin: 4rem 0 2rem;
+    }
+    .article-cta-box h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.8rem;
+      color: var(--cream);
+      font-weight: 300;
+      margin-bottom: 0.8rem;
+    }
+    .article-cta-box h3 em { font-style: italic; color: var(--terracotta); }
+    .article-cta-box p {
+      color: rgba(250,247,242,0.6);
+      font-size: 0.88rem;
+      margin-bottom: 1.5rem;
+    }
+    .article-sources {
+      background: var(--warm-white);
+      border: 1px solid var(--beige);
+      border-radius: 16px;
+      padding: 2rem;
+      margin-top: 3rem;
+    }
+    .article-sources h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.2rem;
+      color: var(--navy);
+      margin-bottom: 1rem;
+    }
+    .article-sources p {
+      font-size: 0.78rem;
+      color: var(--text-light);
+      margin-bottom: 0.5rem;
+      line-height: 1.6;
+    }
+
+    @media (max-width: 900px) {
+      #articles { padding: 5rem 2rem; }
+      .articles-grid { grid-template-columns: 1fr; }
+      .articles-header { flex-direction: column; align-items: flex-start; gap: 1rem; }
+      .article-page-nav { padding: 1rem 1.5rem; }
+    }
+
+    /* ─── LOGO ─── */
+    .nav-logo-wrap { display: flex; align-items: center; gap: 0.7rem; text-decoration: none; }
+    .logo-svg { width: 36px; height: 36px; flex-shrink: 0; }
+
+    /* ─── À PROPOS ─── */
+    #a-propos {
+      padding: 8rem 7rem;
+      background: var(--navy);
+      display: grid;
+      grid-template-columns: 1fr 1.4fr;
+      gap: 6rem;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+    }
+    #a-propos::before {
+      content: '';
+      position: absolute;
+      top: -100px; right: -100px;
+      width: 500px; height: 500px;
+      background: radial-gradient(circle, rgba(194,122,95,0.1), transparent 70%);
+    }
+
+    .propos-visual {
+      position: relative;
+    }
+    .propos-card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 28px;
+      padding: 3rem 2.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .propos-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(to right, var(--terracotta), var(--gold));
+    }
+    .propos-initials {
+      width: 80px; height: 80px;
+      background: linear-gradient(135deg, var(--terracotta), var(--gold));
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.8rem;
+      font-weight: 600;
+      color: white;
+      margin-bottom: 1.5rem;
+    }
+    .propos-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.8rem;
+      font-weight: 600;
+      color: var(--cream);
+      margin-bottom: 0.3rem;
+    }
+    .propos-title-tag {
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 2rem;
+    }
+    .propos-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+    .stat-item {
+      background: rgba(255,255,255,0.04);
+      border-radius: 14px;
+      padding: 1rem;
+      text-align: center;
+    }
+    .stat-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2rem;
+      color: var(--terracotta);
+      font-weight: 600;
+      line-height: 1;
+    }
+    .stat-label { font-size: 0.7rem; color: rgba(250,247,242,0.4); margin-top: 0.3rem; letter-spacing: 0.06em; }
+
+    .propos-content {}
+    .propos-content .section-eyebrow { color: var(--gold); }
+    .propos-content .section-title { color: var(--cream); }
+
+    .propos-bio {
+      font-size: 0.95rem;
+      color: rgba(250,247,242,0.65);
+      line-height: 1.9;
+      font-weight: 300;
+      margin-top: 1.5rem;
+    }
+    .propos-bio strong { color: var(--cream); font-weight: 500; }
+
+    .propos-values {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      margin-top: 2rem;
+    }
+    .value-tag {
+      background: rgba(194,122,95,0.15);
+      border: 1px solid rgba(194,122,95,0.25);
+      color: var(--coral);
+      font-size: 0.75rem;
+      padding: 0.4rem 1rem;
+      border-radius: 50px;
+      letter-spacing: 0.05em;
+    }
+
+    .propos-quote {
+      margin-top: 2.5rem;
+      padding: 1.5rem 2rem;
+      border-left: 2px solid var(--terracotta);
+      background: rgba(255,255,255,0.03);
+      border-radius: 0 14px 14px 0;
+    }
+    .propos-quote p {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.15rem;
+      font-style: italic;
+      color: var(--cream);
+      font-weight: 300;
+      line-height: 1.6;
+    }
+
+    /* ─── PHOTO PROFIL ─── */
+    .propos-photo-wrap {
+      width: 110px; height: 110px;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 3px solid rgba(194,122,95,0.5);
+      margin-bottom: 1.5rem;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+    }
+    .propos-photo {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      object-position: center top;
+    }
+
+        /* ─── MODALS ─── */
+    .modal-overlay {
+      position: fixed; inset: 0;
+      background: rgba(10,18,30,0.75);
+      backdrop-filter: blur(8px);
+      z-index: 500;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+    }
+    .modal-overlay.open { display: flex; }
+    .modal-box {
+      background: var(--cream);
+      border-radius: 24px;
+      padding: 3rem;
+      max-width: 640px;
+      width: 100%;
+      max-height: 80vh;
+      overflow-y: auto;
+      position: relative;
+      animation: fadeUp 0.3s ease;
+    }
+    .modal-close {
+      position: absolute; top: 1.5rem; right: 1.5rem;
+      background: var(--beige);
+      border: none;
+      width: 34px; height: 34px;
+      border-radius: 50%;
+      font-size: 1rem;
+      cursor: none;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--text-mid);
+      transition: background 0.2s;
+    }
+    .modal-close:hover { background: var(--sand); }
+    .modal-eyebrow {
+      font-size: 0.7rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--terracotta);
+      margin-bottom: 0.8rem;
+    }
+    .modal-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2rem;
+      color: var(--navy);
+      font-weight: 600;
+      margin-bottom: 1.5rem;
+    }
+    .modal-body {
+      font-size: 0.88rem;
+      color: var(--text-mid);
+      line-height: 1.9;
+      font-weight: 300;
+    }
+    .modal-body h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem;
+      color: var(--navy);
+      margin: 1.5rem 0 0.5rem;
+      font-weight: 600;
+    }
+    .modal-body p { margin-bottom: 0.8rem; }
+    .contact-links { margin-top: 1.5rem; display: flex; flex-direction: column; gap: 1rem; }
+    .contact-link {
+      display: flex; align-items: center; gap: 1rem;
+      background: var(--beige);
+      border-radius: 14px;
+      padding: 1rem 1.4rem;
+      text-decoration: none;
+      color: var(--navy);
+      font-size: 0.88rem;
+      transition: background 0.2s;
+    }
+    .contact-link:hover { background: var(--sand); }
+    .contact-icon { font-size: 1.3rem; }
+    @media (max-width: 900px) {
+      #a-propos { grid-template-columns: 1fr; padding: 5rem 2rem; gap: 3rem; }
+      nav { padding: 1.2rem 2rem; }
+      .nav-links { display: none; }
+      #hero { grid-template-columns: 1fr; }
+      .hero-left { padding: 8rem 2rem 4rem; }
+      .hero-right { height: 50vh; }
+      #pour-qui, #themes, #relation-aide, #comment, #reservation { padding: 5rem 2rem; }
+      .ages-grid { grid-template-columns: 1fr 1fr; }
+      .themes-layout { grid-template-columns: 1fr; gap: 2rem; }
+      #relation-aide { grid-template-columns: 1fr; }
+      .steps { grid-template-columns: 1fr; }
+      .steps::before { display: none; }
+      footer { flex-direction: column; gap: 1.5rem; text-align: center; padding: 2rem; }
+    }
+  </style>
+  <!-- Cal.com embed -->
+  <script type="text/javascript">
+    (function (C, A, L) { let p = function (a, ar) { a.q.push(ar); }; let d = C.document; C.Cal = C.Cal || function () { let cal = C.Cal; let ar = arguments; if (!cal.loaded) { cal.ns = {}; cal.q = cal.q || []; d.head.appendChild(d.createElement("script")).src = A; cal.loaded = true; } if (ar[0] === L) { const api = function () { p(api, arguments); }; const namespace = ar[1]; api.q = api.q || []; if(typeof namespace === "string"){cal.ns[namespace] = cal.ns[namespace] || api;p(cal.ns[namespace], ar);p(cal, ["-q", namespace]);}else{p(cal, ar);} return; } p(cal, ar); }; })(window, "https://app.cal.com/embed/embed.js", "init");
+    Cal("init", "15min", {origin:"https://cal.com"});
+    Cal.ns["15min"]("ui", {"hideEventTypeDetails":false,"layout":"month_view","cssVarsPerTheme":{"light":{"cal-brand":"#C27A5F"}}});
+    Cal.ns["15min"]("inline", {
+      elementOrSelector: "#cal-embed",
+      calLink: "bello-st-lovell-svij5m/15min",
+      layout: "month_view"
+    });
+    // Show embed wrap, hide fallback once Cal loads
+    Cal.ns["15min"]("on", {
+      action: "*",
+      callback: function() {
+        var wrap = document.getElementById("cal-embed-wrap");
+        var fallback = document.getElementById("cal-fallback");
+        if (wrap) wrap.style.display = "block";
+        if (fallback) fallback.style.display = "none";
+      }
+    });
+    // Also try showing embed after short delay
+    setTimeout(function() {
+      var embed = document.getElementById("cal-embed");
+      var wrap = document.getElementById("cal-embed-wrap");
+      var fallback = document.getElementById("cal-fallback");
+      if (embed && embed.children.length > 0 && wrap) {
+        wrap.style.display = "block";
+        if (fallback) fallback.style.display = "none";
+      }
+    }, 2000);
+  </script>
+</head>
+<body>
+
+  <!-- Custom cursor -->
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+
+  <!-- ─── NAV ─── -->
+  <nav>
+    <a href="#" class="nav-logo-wrap">
+      <svg class="logo-svg" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="20" cy="20" r="19" stroke="#1E2D40" stroke-width="1.5"/>
+        <!-- F stylized as flowing water wave -->
+        <path d="M10 14 Q20 10 30 14" stroke="#C27A5F" stroke-width="2" stroke-linecap="round" fill="none"/>
+        <path d="M10 20 Q20 16 30 20" stroke="#7A9E8A" stroke-width="2" stroke-linecap="round" fill="none"/>
+        <path d="M10 26 Q20 22 30 26" stroke="#B8986A" stroke-width="2" stroke-linecap="round" fill="none"/>
+      </svg>
+      <div class="nav-logo">Flow<span>meo</span></div>
+    </a>
+    <div class="nav-links">
+      <a href="#themes">Explorer</a>
+      <a href="#articles">Articles</a>
+      <a href="#relation-aide">Relation d'aide</a>
+      <a href="#comment">Comment ça marche</a>
+      <a href="#a-propos">Béllo</a>
+      <a href="#reservation" class="nav-cta">Réserver un entretien</a>
+    </div>
+  </nav>
+
+  <!-- ─── HERO ─── -->
+  <section id="hero">
+    <div class="hero-left">
+      <div class="hero-tag">Clarté psychologique du quotidien</div>
+      <h1 class="hero-title">
+        Le quotidien,<br>
+        <em>éclairé par</em><br>
+        la psychologie.
+      </h1>
+      <p class="hero-sub">
+        Flowmeo est un espace bienveillant où la psychologie devient accessible à tous. Apprends, explore, et retrouve ton équilibre — à ton rythme.
+      </p>
+      <div class="hero-actions">
+        <a href="#themes" class="btn-primary">Commencer à explorer</a>
+        <a href="#relation-aide" class="btn-ghost">Parler à quelqu'un</a>
+      </div>
+      <div class="deco-line"></div>
+    </div>
+    <div class="hero-right">
+      <div class="hero-visual">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+        <div class="hero-quote">
+          <p>« La connaissance de soi est le début de toute sagesse. »</p>
+          <span>Aristote</span>
+        </div>
+        <div class="hero-card hero-card-1">
+          <div class="card-icon">🌱</div>
+          <div class="card-title">Psycho-éducation</div>
+          <div class="card-desc">Des ressources claires pour mieux comprendre ta vie intérieure.</div>
+        </div>
+        <div class="hero-card hero-card-2">
+          <div class="card-icon">🤝</div>
+          <div class="card-title">Relation d'aide</div>
+          <div class="card-desc">Un espace d'écoute humaine et bienveillante, sur réservation.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── POUR QUI ─── -->
+  <section id="pour-qui">
+    <div class="reveal">
+      <div class="section-eyebrow">Pour chaque étape de vie</div>
+      <h2 class="section-title">Peu importe où<br>tu en es dans <em>ta vie</em></h2>
+      <p class="section-body">Flowmeo s'adresse à toutes les générations. Que tu aies 14 ou 60 ans, tu mérites un espace pour comprendre ce que tu vis.</p>
+    </div>
+    <div class="ages-grid">
+      <div class="age-card reveal">
+        <div class="age-emoji">🌊</div>
+        <div class="age-range">14 – 17 ans</div>
+        <div class="age-label">L'adolescent</div>
+        <div class="age-desc">Identité, émotions intenses, pression scolaire, relations — comprendre ce monde intérieur qui s'éveille.</div>
+      </div>
+      <div class="age-card reveal">
+        <div class="age-emoji">🌿</div>
+        <div class="age-range">18 – 25 ans</div>
+        <div class="age-label">Le jeune adulte</div>
+        <div class="age-desc">Nouvelles libertés, anxiété d'orientation, premières ruptures — naviguer les grands tournants de la vie.</div>
+      </div>
+      <div class="age-card reveal">
+        <div class="age-emoji">🌳</div>
+        <div class="age-range">26 – 45 ans</div>
+        <div class="age-label">L'adulte actif</div>
+        <div class="age-desc">Carrière, famille, couple, parentalité — trouver l'équilibre dans une vie en plein mouvement.</div>
+      </div>
+      <div class="age-card reveal">
+        <div class="age-emoji">🍂</div>
+        <div class="age-range">46 ans et +</div>
+        <div class="age-label">La maturité</div>
+        <div class="age-desc">Transition de vie, sens profond, changements corporels et relationnels — explorer cette nouvelle sagesse.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── THÈMES ─── -->
+  <section id="themes">
+    <div class="themes-layout">
+      <div class="reveal">
+        <div class="section-eyebrow">Thèmes explorés</div>
+        <h2 class="section-title">Ce que tu <em>vis</em>,<br>on en parle.</h2>
+        <p class="section-body">Des articles, exercices pratiques et pistes de réflexion organisés autour de ce qui compte vraiment dans ta vie.</p>
+      </div>
+      <div class="themes-grid reveal">
+        <div class="theme-pill"><span class="theme-icon">😮‍💨</span><span class="theme-name">Anxiété & stress</span></div>
+        <div class="theme-pill"><span class="theme-icon">💛</span><span class="theme-name">Confiance en soi</span></div>
+        <div class="theme-pill"><span class="theme-icon">💞</span><span class="theme-name">Relations & amour</span></div>
+        <div class="theme-pill"><span class="theme-icon">👨‍👩‍👧</span><span class="theme-name">Famille & parentalité</span></div>
+        <div class="theme-pill"><span class="theme-icon">🌊</span><span class="theme-name">Émotions difficiles</span></div>
+        <div class="theme-pill"><span class="theme-icon">🔄</span><span class="theme-name">Transitions de vie</span></div>
+        <div class="theme-pill"><span class="theme-icon">😴</span><span class="theme-name">Sommeil & fatigue</span></div>
+        <div class="theme-pill"><span class="theme-icon">🎯</span><span class="theme-name">Sens & motivation</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── RELATION D'AIDE ─── -->
+  <section id="relation-aide">
+    <div class="aide-visual reveal">
+      <div class="aide-bg">
+        <div class="aide-bg-blob"></div>
+      </div>
+      <div class="aide-center-text">
+        <div class="big-num">1:1</div>
+      </div>
+      <div class="aide-badge aide-badge-1">
+        <div class="badge-label">Format</div>
+        <div class="badge-value">100% en ligne</div>
+      </div>
+      <div class="aide-badge aide-badge-2">
+        <div class="badge-label">Durée</div>
+        <div class="badge-value">50 minutes</div>
+      </div>
+    </div>
+    <div class="aide-content reveal">
+      <div class="section-eyebrow">Relation d'aide</div>
+      <h2 class="section-title">Parfois, on a besoin<br>d'une <em>vraie présence</em>.</h2>
+      <p class="section-body">Les ressources éducatives sont un premier pas. Mais certains moments de vie méritent un espace d'écoute humaine et personnalisé.</p>
+      <div class="aide-features">
+        <div class="aide-feature">
+          <div class="feat-dot"></div>
+          <div class="feat-text"><strong>Une écoute active et bienveillante</strong> — Sans jugement, à ton rythme, dans un cadre sécuritaire.</div>
+        </div>
+        <div class="aide-feature">
+          <div class="feat-dot"></div>
+          <div class="feat-text"><strong>Des pistes concrètes</strong> — Pas seulement écouter, mais t'aider à voir plus clair et à avancer.</div>
+        </div>
+        <div class="aide-feature">
+          <div class="feat-dot"></div>
+          <div class="feat-text"><strong>Avec Béllo St-Lovell</strong> — Tu possèdes déjà les clés de ton propre changement. Son rôle : t'offrir la carte et la boussole pour les retrouver.</div>
+        </div>
+      </div>
+      <div class="aide-disclaimer">
+        🛡️ La relation d'aide n'est pas un service de thérapie ou de diagnostic. Elle offre un soutien, de l'écoute et des pistes de réflexion. Si tu vis une situation de crise, des ressources spécialisées te seront recommandées.
+      </div>
+      <a href="#reservation" class="btn-primary" style="display:inline-block; margin-top:2rem;">Réserver un entretien</a>
+    </div>
+  </section>
+
+  <!-- ─── COMMENT ÇA MARCHE ─── -->
+  <section id="comment">
+    <div class="reveal" style="text-align:center; max-width:600px; margin:0 auto;">
+      <div class="section-eyebrow">Le parcours Flowmeo</div>
+      <h2 class="section-title">Simple, <em>humain</em>,<br>à ton rythme.</h2>
+    </div>
+    <div class="steps">
+      <div class="step reveal">
+        <div class="step-num">1</div>
+        <div class="step-title">Explore</div>
+        <div class="step-desc">Parcours les thèmes qui résonnent avec ce que tu vis. Articles, exercices, pistes de réflexion — tout est accessible gratuitement.</div>
+      </div>
+      <div class="step reveal">
+        <div class="step-num">2</div>
+        <div class="step-title">Comprends</div>
+        <div class="step-desc">La psycho-éducation te donne des clés pour mieux te comprendre. Chaque lecture est une petite lumière sur ta vie intérieure.</div>
+      </div>
+      <div class="step reveal">
+        <div class="step-num">3</div>
+        <div class="step-title">Parle</div>
+        <div class="step-desc">Si tu ressens le besoin d'aller plus loin, réserve un entretien en relation d'aide. Un espace humain t'attend.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── ARTICLES ─── -->
+  <section id="articles">
+    <div class="articles-header reveal">
+      <div>
+        <div class="section-eyebrow">Psycho-éducation</div>
+        <h2 class="section-title" style="margin-bottom:0;">Lis, <em>comprends</em>,<br>avance.</h2>
+      </div>
+      <p style="max-width:320px; font-size:0.88rem; color:var(--text-light); line-height:1.7; font-weight:300;">Des articles fondés sur la science, écrits pour être compris par tous — quel que soit ton âge ou ton parcours.</p>
+    </div>
+    <div class="articles-grid">
+      <div class="article-card reveal" onclick="openArticle()">
+        <div class="article-card-thumb">
+          <div class="article-card-thumb-icon">💞</div>
+          <div class="article-card-thumb-tag">Relations de couple</div>
+        </div>
+        <div class="article-card-body">
+          <div class="article-card-title">Hommes, femmes et confusion moderne : ce que la science dit réellement</div>
+          <div class="article-card-excerpt">Pourquoi les relations semblent si compliquées aujourd'hui ? La réponse n'est peut-être pas morale — elle est biologique.</div>
+          <div class="article-card-footer">
+            <span class="article-read-time">⏱ 12 min de lecture</span>
+            <span class="article-cta">Lire l'article →</span>
+          </div>
+        </div>
+      </div>
+      <div class="article-card reveal" style="opacity:0.5; pointer-events:none;">
+        <div class="article-card-thumb" style="background: linear-gradient(135deg,#E8D9C8,#D4C5B0);">
+          <div class="article-card-thumb-icon">😮‍💨</div>
+          <div class="article-card-thumb-tag" style="background:var(--sage);">Anxiété & stress</div>
+        </div>
+        <div class="article-card-body">
+          <div class="article-card-title">Comprendre son anxiété pour mieux la traverser</div>
+          <div class="article-card-excerpt">Bientôt disponible — un article sur les mécanismes de l'anxiété et les outils pour y faire face au quotidien.</div>
+          <div class="article-card-footer">
+            <span class="article-read-time">🔒 Prochainement</span>
+          </div>
+        </div>
+      </div>
+      <div class="article-card reveal" style="opacity:0.5; pointer-events:none;">
+        <div class="article-card-thumb" style="background: linear-gradient(135deg,#D8E8DC,#C5D4C0);">
+          <div class="article-card-thumb-icon">💛</div>
+          <div class="article-card-thumb-tag" style="background:var(--deep-sage);">Confiance en soi</div>
+        </div>
+        <div class="article-card-body">
+          <div class="article-card-title">La confiance en soi : mythe ou compétence ?</div>
+          <div class="article-card-excerpt">Bientôt disponible — démêler les idées reçues sur la confiance et comprendre comment elle se construit vraiment.</div>
+          <div class="article-card-footer">
+            <span class="article-read-time">🔒 Prochainement</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── À PROPOS DE BÉLLO ─── -->
+  <section id="a-propos">
+    <div class="propos-visual reveal">
+      <div class="propos-card">
+        <div class="propos-photo-wrap">
+          <img src="data:image/jpeg;base64,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" alt="Béllo St-Lovell" class="propos-photo" />
+        </div>
+        <div class="propos-name">Béllo St-Lovell</div>
+        <div class="propos-title-tag">Bachelier en psychologie · Fondateur de Flowmeo</div>
+        <div class="propos-stats">
+          <div class="stat-item">
+            <div class="stat-num">∞</div>
+            <div class="stat-label">Curiosité humaine</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-num">1</div>
+            <div class="stat-label">Seule règle : sans jugement</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-num">100%</div>
+            <div class="stat-label">En ligne · Confidentiel</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-num">🎓</div>
+            <div class="stat-label">Formation universitaire</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="propos-content reveal">
+      <div class="section-eyebrow">Derrière Flowmeo</div>
+      <h2 class="section-title">Une vraie<br><em>personne</em> t'attend.</h2>
+      <p class="propos-bio">
+        Je crois fermement que <strong>chaque personne porte déjà en elle les réponses dont elle a besoin.</strong> La vie, parfois, les enfouie sous le bruit des émotions, des attentes et des blessures accumulées.
+        <br><br>
+        Mon rôle n'est pas de te dire quoi faire ni de résoudre ta vie à ta place. Je suis là pour <strong>t'offrir la carte et la boussole</strong> — pour que tu retrouves toi-même le chemin qui te correspond.
+        <br><br>
+        Ce que tu trouveras avec moi : une écoute authentique, sans jugement, et une direction claire pour avancer. Pas de discours vague. Pas de protocole froid. Juste <strong>une vraie conversation humaine</strong>, ancrée dans des bases sérieuses en psychologie.
+      </p>
+      <div class="propos-values">
+        <span class="value-tag">Écoute active</span>
+        <span class="value-tag">Aucun jugement</span>
+        <span class="value-tag">Confidentialité totale</span>
+        <span class="value-tag">Approche humaine</span>
+        <span class="value-tag">Formation universitaire</span>
+      </div>
+      <div class="propos-quote">
+        <p>« Chaque individu possède déjà les clés de son propre changement. Je suis simplement là pour l'aider à les retrouver. »</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── RÉSERVATION CTA ─── -->
+  <section id="reservation">
+    <div class="reveal" style="position:relative; z-index:1; width:100%;">
+      <div class="section-eyebrow">Prendre rendez-vous</div>
+      <h2 class="section-title">Prêt·e à faire le<br><em>premier pas</em> ?</h2>
+      <p class="section-body" style="margin: 0 auto 2.5rem;">Choisis directement le créneau qui te convient — entretien de 15 minutes, 100% en ligne, confidentiel.</p>
+
+      <!-- Cal.com inline embed with fallback -->
+      <div style="max-width:900px; margin:0 auto;">
+        <!-- Inline embed (visible when online) -->
+        <div id="cal-embed-wrap" style="border-radius:24px; overflow:hidden; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.1); display:none;">
+          <div id="cal-embed"
+            data-cal-link="bello-st-lovell-svij5m/15min"
+            data-cal-namespace="15min"
+            data-cal-config='{"layout":"month_view"}'
+            style="min-height:600px;"
+          ></div>
+        </div>
+
+        <!-- Fallback button (always visible as backup) -->
+        <div id="cal-fallback" style="text-align:center; padding:3rem 2rem;">
+          <div style="font-size:3rem; margin-bottom:1.5rem;">📅</div>
+          <p style="font-family:'Cormorant Garamond',serif; font-size:1.6rem; color:var(--cream); font-weight:300; margin-bottom:0.8rem;">Choisis ton créneau</p>
+          <p style="font-size:0.88rem; color:rgba(250,247,242,0.55); margin-bottom:2rem; line-height:1.7;">Clique ci-dessous pour accéder au calendrier de réservation<br>et choisir le moment qui te convient.</p>
+          <a href="https://cal.com/bello-st-lovell-svij5m/15min" target="_blank"
+            style="display:inline-flex; align-items:center; gap:0.8rem; background:var(--terracotta); color:white; text-decoration:none; padding:1rem 2.5rem; border-radius:50px; font-size:1rem; font-weight:500; transition:all 0.25s; letter-spacing:0.02em;">
+            Réserver mon entretien →
+          </a>
+          <p style="margin-top:1.2rem; font-size:0.75rem; color:rgba(250,247,242,0.3);">S'ouvre dans un nouvel onglet · Gratuit · Sans engagement</p>
+        </div>
+      </div>
+
+      <p style="margin-top:1.5rem; text-align:center; font-size:0.85rem; color:rgba(250,247,242,0.5);">Tu préfères être contacté·e ? Écris-moi directement à <a href="mailto:bellostlovell@gmail.com" style="color:var(--coral);"><span class="__cf_email__" data-cfemail="a6c4c3cacac9d5d2cac9d0c3cacae6c1cbc7cfca88c5c9cb">[email&#160;protected]</span></a></p>
+      <p style="margin-top:0.5rem; font-size:0.75rem; color:rgba(250,247,242,0.3); letter-spacing:0.05em; text-align:center;">Entretien confidentiel · 100% en ligne · Aucun engagement</p>
+    </div>
+  </section>
+
+  <!-- ─── ARTICLE FULL PAGE ─── -->
+  <div id="article-page">
+    <div class="article-page-nav">
+      <button class="article-back" onclick="closeArticle()">← Retour</button>
+      <div class="nav-logo" style="font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:600;color:var(--navy);">Flow<span style="color:var(--terracotta);">meo</span></div>
+      <a href="#reservation" onclick="closeArticle()" class="btn-primary" style="font-size:0.8rem;padding:0.6rem 1.4rem;">Réserver un entretien</a>
+    </div>
+    <div class="article-hero">
+      <div class="article-hero-tag">Relations de couple · Science & Psychologie</div>
+      <h1 class="article-hero-title">Hommes, femmes et<br><em>confusion moderne</em> :</h1>
+      <p class="article-hero-sub">ce que la science dit réellement</p>
+      <div class="article-meta">
+        <span>✍️ Béllo St-Lovell</span>
+        <span>⏱ 12 min de lecture</span>
+        <span>🧠 Psychologie évolutive</span>
+      </div>
+    </div>
+    <div class="article-divider"></div>
+    <div class="article-content">
+
+      <p>Aujourd'hui, beaucoup de gens sont perdus dans leurs relations. Les hommes reprochent aux femmes d'être trop exigeantes ou de fuir l'engagement. Les femmes reprochent aux hommes d'avoir peur de s'engager ou de ne chercher que le sexe. <strong>Tout le monde accuse tout le monde.</strong></p>
+      <p>Mais si le vrai problème n'était pas moral ? Et si notre cerveau relationnel n'était simplement pas conçu pour le monde moderne ?</p>
+
+      <div class="article-insight">« Pour comprendre cela, il faut remonter non pas 100 ans, mais des centaines de milliers d'années en arrière. »</div>
+
+      <h2>Partie 1 — L'architecture biologique humaine</h2>
+
+      <h3>Nous ne sommes pas apparus dans un monde moderne</h3>
+      <p>Pendant 99 % de l'histoire humaine, nous avons vécu en petits groupes, dans des environnements dangereux, sans applications de rencontre, sans réseaux sociaux, sans contraception moderne. <strong>Notre cerveau relationnel s'est développé dans ce contexte — et il fonctionne encore largement selon ces règles.</strong></p>
+
+      <h3>Le dimorphisme sexuel : des différences biologiques mesurables</h3>
+      <p>L'espèce humaine présente un dimorphisme sexuel modéré. Cela signifie que les hommes et les femmes ont des différences biologiques réelles et mesurables : masse musculaire, densité osseuse, production de testostérone, tendances comportementales moyennes.</p>
+      <p>Ces différences ne sont pas idéologiques. Elles sont le résultat de milliers de générations de pressions évolutives.</p>
+
+      <h3>Testostérone et comportement</h3>
+      <p>La testostérone influence la compétitivité, la recherche de dominance, la libido et la tolérance au risque. Mais attention — cela ne signifie pas que les hommes sont des "machines agressives". <strong>La biologie influence. Elle ne dicte pas.</strong></p>
+
+      <h2>Partie 2 — L'architecture féminine</h2>
+
+      <h3>Un investissement reproductif plus élevé</h3>
+      <p>Biologiquement, le coût reproductif féminin est beaucoup plus élevé : grossesse, accouchement, allaitement, nombre limité d'enfants possibles. Cette réalité a produit, évolutivement, une plus grande sélectivité dans le choix du partenaire et une orientation plus forte vers la stabilité et la protection.</p>
+
+      <h3>Ce que les méta-analyses montrent</h3>
+      <p>En moyenne, les recherches montrent chez les femmes une plus grande empathie déclarée, une expressivité émotionnelle plus forte, et une orientation plus marquée vers les relations. <strong>Encore une fois : on parle de moyennes statistiques, pas de règles universelles.</strong></p>
+
+      <h2>Partie 3 — La vraie bombe : le décalage moderne</h2>
+
+      <p>Voici le cœur du problème. Notre cerveau relationnel a été façonné dans des groupes restreints, avec un marché relationnel limité et des normes sociales claires. Aujourd'hui, nous vivons avec des applications de rencontre, un hyperchoix, une indépendance économique et une exposition constante à d'autres options.</p>
+
+      <div class="article-insight">« Notre architecture biologique ancienne se retrouve dans un environnement radicalement nouveau. C'est ce qu'on appelle un mismatch évolutif. »</div>
+
+      <p>Imagine un cerveau conçu pour choisir parmi 20 partenaires potentiels — et place-le dans un environnement où il peut en voir 10 000. Que se passe-t-il ? Comparaison constante, difficulté à s'engager, hausse des attentes, insatisfaction chronique.</p>
+      <p><strong>Ce n'est pas parce que les gens sont mauvais. C'est parce que le système a changé plus vite que la biologie.</strong></p>
+
+      <h2>Partie 4 — Pourquoi les relations modernes semblent plus instables</h2>
+
+      <h3>Le paradoxe du choix</h3>
+      <p>Le cerveau humain n'est pas conçu pour gérer un choix quasi infini. Quand les options augmentent excessivement, l'engagement devient plus difficile, la peur de "rater mieux" augmente, et l'illusion d'abondance remplace la profondeur relationnelle.</p>
+
+      <h3>Désir et stabilité : une tension naturelle</h3>
+      <p>Le désir sexuel est alimenté par la nouveauté, l'incertitude, la tension. La stabilité, elle, repose sur la sécurité, la prévisibilité, la familiarité. Dans un couple long terme, ces deux systèmes peuvent entrer en tension — <strong>ce n'est pas une preuve que l'amour disparaît, c'est la coexistence de deux mécanismes biologiques différents.</strong></p>
+
+      <h2>Partie 5 — Ce que la science ne dit pas</h2>
+      <p>La science ne dit pas que tous les hommes veulent plusieurs partenaires, ni que toutes les femmes veulent sécurité et stabilité, ni que les rôles doivent être traditionnels. Elle dit qu'il existe des <em>tendances moyennes probabilistes</em> qui interagissent avec l'éducation, la culture, les expériences personnelles et le contexte économique.</p>
+      <p><strong>L'humain est flexible.</strong></p>
+
+      <h2>Partie 6 — Comment réduire la confusion</h2>
+      <ul class="article-list">
+        <li><strong>Accepter la réalité biologique sans la dramatiser</strong> — Reconnaître que le désir de nouveauté peut exister, que le besoin de sécurité peut être profond. C'est un point de départ rationnel, pas un aveu de faiblesse.</li>
+        <li><strong>Séparer l'impulsion de l'action</strong> — Avoir une impulsion biologique ne signifie pas devoir agir dessus. La maturité consiste à comprendre ses tendances et à les canaliser intelligemment.</li>
+        <li><strong>Remplacer l'accusation par l'analyse</strong> — Au lieu de dire "tu es égoïste", demande-toi quelle dynamique est en train de se jouer. Passer de l'émotion brute à la compréhension réduit les conflits.</li>
+        <li><strong>Construire des relations conscientes</strong> — Une relation stable moderne nécessite communication explicite, attentes clarifiées, gestion consciente du désir et coopération stratégique. Ce n'est plus automatique. Cela demande intention.</li>
+      </ul>
+
+      <div class="article-insight">« Les hommes et les femmes ne sont pas ennemis. Ils sont des organismes biologiques complexes essayant de naviguer dans un monde qui n'a jamais existé pendant 99 % de leur histoire évolutive. »</div>
+
+      <h2>Conclusion</h2>
+      <p>La confusion moderne ne vient pas d'un défaut moral. Elle vient d'un décalage entre une biologie façonnée par des millénaires et une société transformée en quelques décennies.</p>
+      <p>Comprendre ce décalage ne résout pas tout. Mais cela transforme la colère en compréhension, la méfiance en lucidité, la confusion en direction. <strong>Et c'est exactement là que commence une relation plus intelligente.</strong></p>
+
+      <div class="article-cta-box">
+        <h3>Cet article a fait écho<br>à <em>ta situation</em> ?</h3>
+        <p>Comprendre la biologie humaine est une chose. L'appliquer à ta réalité personnelle en est une autre. Si tu traverses une confusion relationnelle, une tension de couple ou des schémas répétitifs — un entretien avec Béllo peut t'aider à y voir plus clair.</p>
+        <a href="#" onclick="closeArticle(); setTimeout(()=>document.getElementById('reservation').scrollIntoView({behavior:'smooth'}),300);" class="btn-primary">Réserver un entretien</a>
+      </div>
+
+      <div class="article-sources">
+        <h3>📚 Références scientifiques</h3>
+        <p>Darwin, C. (1871). <em>The Descent of Man, and Selection in Relation to Sex.</em></p>
+        <p>Trivers, R. (1972). Parental investment and sexual selection.</p>
+        <p>Buss, D. M. (1989). Sex differences in human mate preferences — 37 cultures. <em>Behavioral and Brain Sciences.</em></p>
+        <p>Archer, J. (2004). Sex differences in aggression. <em>Behavioral and Brain Sciences.</em></p>
+        <p>Fisher, H. (2004). <em>Why We Love.</em></p>
+        <p>Hyde, J. S. (2005). The gender similarities hypothesis.</p>
+        <p>Gettler, L. T. et al. (2011). Longitudinal evidence that fatherhood decreases testosterone.</p>
+      </div>
+
+    </div>
+  </div>
+
+
+  <!-- ─── FOOTER ─── -->
+  <footer>
+    <a href="#" class="nav-logo-wrap" style="text-decoration:none;">
+      <svg class="logo-svg" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="20" cy="20" r="19" stroke="rgba(250,247,242,0.3)" stroke-width="1.5"/>
+        <path d="M10 14 Q20 10 30 14" stroke="#C27A5F" stroke-width="2" stroke-linecap="round" fill="none"/>
+        <path d="M10 20 Q20 16 30 20" stroke="#7A9E8A" stroke-width="2" stroke-linecap="round" fill="none"/>
+        <path d="M10 26 Q20 22 30 26" stroke="#B8986A" stroke-width="2" stroke-linecap="round" fill="none"/>
+      </svg>
+      <div class="footer-logo">Flow<span>meo</span></div>
+    </a>
+    <div class="footer-copy">© 2025 Flowmeo — Béllo St-Lovell</div>
+    <div class="footer-links">
+      <a href="#" onclick="openModal('modal-confidentialite');return false;">Confidentialité</a>
+      <a href="#" onclick="openModal('modal-cgv');return false;">Conditions générales de vente</a>
+      <a href="#" onclick="openModal('modal-contact');return false;">Contact</a>
+    </div>
+  </footer>
+
+  <!-- ─── MODAL : CONFIDENTIALITÉ ─── -->
+  <div class="modal-overlay" id="modal-confidentialite">
+    <div class="modal-box">
+      <button class="modal-close" onclick="closeModal('modal-confidentialite')">✕</button>
+      <div class="modal-eyebrow">Politique de confidentialité</div>
+      <div class="modal-title">Tes données,<br>protégées.</div>
+      <div class="modal-body">
+        <p>Chez Flowmeo, ta vie privée n'est pas une formalité — c'est une valeur fondamentale. Voici comment nous traitons tes informations personnelles.</p>
+        <h3>Données collectées</h3>
+        <p>Lorsque tu remplis le formulaire de réservation, nous collectons uniquement ton prénom et ton adresse courriel. Aucune autre donnée n'est recueillie sans ton consentement explicite.</p>
+        <h3>Utilisation des données</h3>
+        <p>Tes coordonnées sont utilisées uniquement pour te recontacter afin de confirmer ton entretien. Elles ne sont jamais vendues, partagées ou utilisées à des fins publicitaires.</p>
+        <h3>Confidentialité des entretiens</h3>
+        <p>Tout ce qui est partagé lors d'un entretien en relation d'aide reste strictement confidentiel. Aucun contenu de nos échanges n'est divulgué à un tiers, sauf obligation légale explicite.</p>
+        <h3>Tes droits</h3>
+        <p>Tu as le droit de demander l'accès, la modification ou la suppression de tes données à tout moment en nous écrivant à : <strong><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="0361666f6f6c70776f6c75666f6f43646e626a6f2d606c6e">[email&#160;protected]</a></strong></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── MODAL : CGV ─── -->
+  <div class="modal-overlay" id="modal-cgv">
+    <div class="modal-box">
+      <button class="modal-close" onclick="closeModal('modal-cgv')">✕</button>
+      <div class="modal-eyebrow">Conditions générales de vente</div>
+      <div class="modal-title">Ce qu'on se doit<br>mutuellement.</div>
+      <div class="modal-body">
+        <h3>Nature du service</h3>
+        <p>Flowmeo propose des entretiens en relation d'aide menés par Béllo St-Lovell, bachelier en psychologie. Ces entretiens offrent un espace d'écoute, de soutien et de réflexion. Ils ne constituent en aucun cas un service de psychothérapie, de diagnostic ou de traitement médical.</p>
+        <h3>Réservation et tarifs</h3>
+        <p>Les entretiens se tiennent exclusivement en ligne (vidéoconférence). La durée standard est de 50 minutes. Les tarifs en vigueur sont communiqués lors de la confirmation de réservation.</p>
+        <h3>Annulation</h3>
+        <p>Toute annulation ou demande de report doit être communiquée au minimum 24 heures avant le rendez-vous prévu, par courriel à <strong><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="5133343d3d3e22253d3e27343d3d11363c30383d7f323e3c">[email&#160;protected]</a></strong>. En dessous de ce délai, l'entretien peut être facturé en totalité.</p>
+        <h3>Limites du service</h3>
+        <p>En cas de détresse psychologique sévère ou de situation de crise, Béllo St-Lovell se réserve le droit de référer le client vers des ressources professionnelles spécialisées. La relation d'aide n'est pas un service d'urgence.</p>
+        <h3>Responsabilité</h3>
+        <p>Flowmeo s'engage à offrir un service bienveillant, professionnel et confidentiel. Le client demeure responsable de ses propres décisions, actions et démarches à la suite des entretiens.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── MODAL : CONTACT ─── -->
+  <div class="modal-overlay" id="modal-contact">
+    <div class="modal-box">
+      <button class="modal-close" onclick="closeModal('modal-contact')">✕</button>
+      <div class="modal-eyebrow">Nous joindre</div>
+      <div class="modal-title">Une question ?<br>On est là.</div>
+      <div class="modal-body">
+        <p>Pour toute question, demande de réservation ou simplement pour dire bonjour — n'hésite pas à nous écrire. Béllo répond personnellement à chaque message.</p>
+        <div class="contact-links">
+          <a href="mailto:bellostlovell@gmail.com" class="contact-link">
+            <span class="contact-icon">✉️</span>
+            <div>
+              <div style="font-weight:500; margin-bottom:0.2rem;">Par courriel</div>
+              <div style="font-size:0.8rem; color:var(--text-light);"><span class="__cf_email__" data-cfemail="a9cbccc5c5c6daddc5c6dfccc5c5e9cec4c8c0c587cac6c4">[email&#160;protected]</span></div>
+            </div>
+          </a>
+          <a href="#reservation" onclick="closeModal('modal-contact')" class="contact-link">
+            <span class="contact-icon">📅</span>
+            <div>
+              <div style="font-weight:500; margin-bottom:0.2rem;">Réserver un entretien</div>
+              <div style="font-size:0.8rem; color:var(--text-light);">Remplis le formulaire — réponse sous 24h</div>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+    // Custom cursor
+    const cursor = document.getElementById('cursor');
+    const ring = document.getElementById('cursorRing');
+    let mouseX = 0, mouseY = 0, ringX = 0, ringY = 0;
+
+    document.addEventListener('mousemove', e => {
+      mouseX = e.clientX; mouseY = e.clientY;
+      cursor.style.left = mouseX + 'px';
+      cursor.style.top = mouseY + 'px';
+    });
+
+    function animateRing() {
+      ringX += (mouseX - ringX) * 0.12;
+      ringY += (mouseY - ringY) * 0.12;
+      ring.style.left = ringX + 'px';
+      ring.style.top = ringY + 'px';
+      requestAnimationFrame(animateRing);
+    }
+    animateRing();
+
+    document.querySelectorAll('a, button, .theme-pill, .age-card').forEach(el => {
+      el.addEventListener('mouseenter', () => {
+        cursor.style.transform = 'translate(-50%, -50%) scale(2)';
+        ring.style.transform = 'translate(-50%, -50%) scale(1.5)';
+        ring.style.opacity = '0.3';
+      
